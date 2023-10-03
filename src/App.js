@@ -12,14 +12,20 @@ function App() {
       {id: 3, title: 'JavaScript 3', body: 'Discription'}
     ]);
 
+    // Принимаем newPost из дочернего компонента
     const createPost = (newPost) => {
       setPosts([...posts, newPost])
+    }
+
+    // Принимаем post из дочернего компонента
+    const removePost = (post) => {
+      setPosts(posts.filter(p => p.id !== post.id))
     }
 
   return (
     <div className="app">
       <PostForm create={createPost}/>
-      <PostList posts={posts} title={"Список постов JavaScript"}/>
+      <PostList remove={removePost} posts={posts} title={"Список постов JavaScript"}/>
     </div>
   );
 }
