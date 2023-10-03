@@ -4,8 +4,8 @@ const postItem = function (props) {
     return (
         <div className='post'>
             <div className='post__content'>
-                <strong>{props.post.id}. {props.post.title}</strong>
-                <div>{props.post.body}JavaScript - язык прогрмаммирования.</div>
+                <strong>{props.number}. {props.post.title}</strong>
+                <div>{props.post.body}</div>
             </div>
                 <div className='post__btns'>
                 <button>Удалить</button>
