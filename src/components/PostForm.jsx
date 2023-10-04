@@ -13,8 +13,10 @@ const PostForm = ({create}) => {
             ...post, id: Date.now(), 
         }
 
-        create(newPost)
-        setPost({title:'', body:''});
+        if (newPost.title.length && newPost.body.length) {
+            create(newPost);
+            setPost({title:'', body:''});
+        }
       }
 
     {/* Неуправляемый/неконтролируемый инпут
