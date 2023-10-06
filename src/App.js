@@ -6,6 +6,7 @@ import MyModal from './components/UI/modal/MyModal';
 import MyButton from './components/UI/button/MyButton';
 import MyInput from './components/UI/input/MyInput';
 import MySelect from './components/UI/select/MySelect';
+import { useSortedPosts, useSortedAndSearchPosts } from './hooks/usePosts';
 
 import "../src/styles/App.css"
 
@@ -20,16 +21,7 @@ function App() {
   const [filter, setFilter] = useState({sort:'', query:''});
   const [modal, setModal] = useState(false)
 
-  const sortedPosts = useMemo(()=>{
-    if(filter.sort) {
-      return [...posts].sort((a,b)=>a[filter.sort].localeCompare(b[filter.sort]));
-    }
-    return posts;
-  }, [filter.sort, posts]);
-
-  const sortedAndSearchPosts = useMemo(()=>{
-    return sortedPosts.filter(post=> post.title.toLowerCase().includes(filter.query.toLowerCase()));
-  }, [filter.query, sortedPosts]);
+  const sortedAndSearchPosts = useSortedAndSearchPosts(filter.query, posts, filter.sort)
 
   // Принимаем newPost из дочернего компонента
   const createPost = (newPost) => {
