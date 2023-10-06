@@ -1,5 +1,4 @@
-import React, { useState, createRef } from 'react';
-import { createRoot } from 'react-dom/client';
+import React from 'react';
 import PostItem from './postItem';
 import { CSSTransition, TransitionGroup, } from 'react-transition-group';
 
