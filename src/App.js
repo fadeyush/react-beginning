@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import PostList from './components/PostList';
 import PostForm from './components/PostForm';
 import PostFilter from './components/PostFilter';
@@ -7,19 +7,17 @@ import MyButton from './components/UI/button/MyButton';
 import MyInput from './components/UI/input/MyInput';
 import MySelect from './components/UI/select/MySelect';
 import { useSortedPosts, useSortedAndSearchPosts } from './hooks/usePosts';
+import PostsService from './API/PostsService';
 
 import "../src/styles/App.css"
+import axios from 'axios';
 
 function App() {
   
-  const [posts, setPosts] = useState([
-    {id: 1, title: 'нJavaScript', body: 'бDiscription'},
-    {id: 2, title: 'бJavaScript 2', body: 'дDiscription'},
-    {id: 3, title: 'оJavaScript 3', body: 'нDiscription'}
-  ]);
-
+  const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState({sort:'', query:''});
-  const [modal, setModal] = useState(false)
+  const [modal, setModal] = useState(false);
+  const [isPostsLoading, setIsPostLoading] = useState(false);
 
   const sortedAndSearchPosts = useSortedAndSearchPosts(filter.query, posts, filter.sort)
 
@@ -34,6 +32,17 @@ function App() {
     setPosts(posts.filter(p => p.id !== post.id))
   }
 
+  async function fetchPosts() {
+    setIsPostLoading(true);
+    const posts = await PostsService.getAll();
+    setPosts(posts);
+    setIsPostLoading(false);
+  }
+
+  useEffect(()=>{
+    fetchPosts()
+  }, [])
+
   return (
     <div className="app">
       <MyButton style={{'marginTop': '15px'}} onClick={e=>setModal(true)}>
@@ -44,7 +53,12 @@ function App() {
       </MyModal>
       <hr style={{margin:'15px 0'}} />
       <PostFilter filter={filter} setFilter={setFilter}/>
-      <PostList remove={removePost} posts={sortedAndSearchPosts} title={"Список постов JavaScript"}/>
+      {isPostsLoading 
+        ?
+        <h1>Идет загрузка...</h1>
+        :
+        <PostList remove={removePost} posts={sortedAndSearchPosts} title={"Список постов JavaScript"}/>
+      }
     </div>
   );
 }
