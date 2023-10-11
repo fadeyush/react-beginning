@@ -8,6 +8,7 @@ import MyInput from './components/UI/input/MyInput';
 import MySelect from './components/UI/select/MySelect';
 import { useSortedPosts, useSortedAndSearchPosts } from './hooks/usePosts';
 import PostsService from './API/PostsService';
+import MyLoader from './components/UI/loader/MyLoader';
 
 import "../src/styles/App.css"
 import axios from 'axios';
@@ -55,7 +56,7 @@ function App() {
       <PostFilter filter={filter} setFilter={setFilter}/>
       {isPostsLoading 
         ?
-        <h1>Идет загрузка...</h1>
+        <div style={{display: 'flex', justifyContent: 'center', marginTop: '50px'}}><MyLoader/></div>
         :
         <PostList remove={removePost} posts={sortedAndSearchPosts} title={"Список постов JavaScript"}/>
       }
