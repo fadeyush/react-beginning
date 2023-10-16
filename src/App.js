@@ -9,6 +9,7 @@ import MySelect from './components/UI/select/MySelect';
 import { useSortedPosts, useSortedAndSearchPosts } from './hooks/usePosts';
 import PostsService from './API/PostsService';
 import MyLoader from './components/UI/loader/MyLoader';
+import {useFetching} from './hooks/useFetching'
 
 import "../src/styles/App.css"
 import axios from 'axios';
@@ -18,7 +19,10 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState({sort:'', query:''});
   const [modal, setModal] = useState(false);
-  const [isPostsLoading, setIsPostLoading] = useState(false);
+  const [fetchPosts, isPostsLoading, postError] = useFetching(async()=>{
+    const posts = await PostsService.getAll();
+    setPosts(posts);
+  }, []);
 
   const sortedAndSearchPosts = useSortedAndSearchPosts(filter.query, posts, filter.sort)
 
@@ -33,17 +37,10 @@ function App() {
     setPosts(posts.filter(p => p.id !== post.id))
   }
 
-  async function fetchPosts() {
-    setIsPostLoading(true);
-    const posts = await PostsService.getAll();
-    setPosts(posts);
-    setIsPostLoading(false);
-  }
-
   useEffect(()=>{
     fetchPosts()
   }, [])
-
+  
   return (
     <div className="app">
       <MyButton style={{'marginTop': '15px'}} onClick={e=>setModal(true)}>
@@ -54,6 +51,8 @@ function App() {
       </MyModal>
       <hr style={{margin:'15px 0'}} />
       <PostFilter filter={filter} setFilter={setFilter}/>
+      {postError && 
+      <h1>Произошла ошибка {postError}</h1>}
       {isPostsLoading 
         ?
         <div style={{display: 'flex', justifyContent: 'center', marginTop: '50px'}}><MyLoader/></div>
