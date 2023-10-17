@@ -24,7 +24,7 @@ function App() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
-  const [fetchPosts, isPostsLoading, postError] = useFetching(async()=>{
+  const [fetchPosts, isPostsLoading, postError] = useFetching(async(limit, page)=>{
     const response = await PostsService.getAll(limit, page);
     setPosts(response.data);
     const totalCount = Number(response.headers['x-total-count']);
@@ -46,8 +46,8 @@ function App() {
   }
 
   useEffect(()=>{
-     fetchPosts()
-  }, [page])
+     fetchPosts(limit, page)
+  }, [])
 
   const changePostsList = (page) => {
     setPage(page)
