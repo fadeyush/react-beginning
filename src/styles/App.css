@@ -41,3 +41,24 @@ body {
     transform: translateX(-350px);   
     transition: all 500ms ease-in;
 }
+
+.page__wrapper {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 5px;
+}
+
+.page__item {
+    padding: 5px 15px;
+    color: teal;
+    font-size: 14px;
+    background: transparent;
+    border: 1px solid teal;
+    cursor: pointer;
+}
+
+.page__item--active {
+    border: 2px solid orange;
+    font-weight: bold;
+}

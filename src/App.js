@@ -9,7 +9,8 @@ import MySelect from './components/UI/select/MySelect';
 import { useSortedPosts, useSortedAndSearchPosts } from './hooks/usePosts';
 import PostsService from './API/PostsService';
 import MyLoader from './components/UI/loader/MyLoader';
-import {useFetching} from './hooks/useFetching'
+import {useFetching} from './hooks/useFetching';
+import {getPageCount, usePagesArray} from './utils/pages'
 
 import "../src/styles/App.css"
 import axios from 'axios';
@@ -19,12 +20,19 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState({sort:'', query:''});
   const [modal, setModal] = useState(false);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
   const [fetchPosts, isPostsLoading, postError] = useFetching(async()=>{
-    const posts = await PostsService.getAll();
-    setPosts(posts);
+    const response = await PostsService.getAll(limit, page);
+    setPosts(response.data);
+    const totalCount = Number(response.headers['x-total-count']);
+    setTotalPages(getPageCount(totalCount, limit));
   }, []);
 
   const sortedAndSearchPosts = useSortedAndSearchPosts(filter.query, posts, filter.sort)
+  let pagesArray = usePagesArray(totalPages);
 
   // Принимаем newPost из дочернего компонента
   const createPost = (newPost) => {
@@ -38,8 +46,12 @@ function App() {
   }
 
   useEffect(()=>{
-    fetchPosts()
-  }, [])
+     fetchPosts()
+  }, [page])
+
+  const changePostsList = (page) => {
+    setPage(page)
+  }
   
   return (
     <div className="app">
@@ -59,6 +71,16 @@ function App() {
         :
         <PostList remove={removePost} posts={sortedAndSearchPosts} title={"Список постов JavaScript"}/>
       }
+      <div className='page__wrapper'>
+        {pagesArray.map(p =>
+          <span
+              onClick={()=>changePostsList(p)}
+              key={p}
+              className={page === p ? 'page__item page__item--active' : 'page__item'}>
+            {p}
+          </span>
+        )}
+      </div>
     </div>
   );
 }
