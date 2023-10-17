@@ -10,7 +10,8 @@ import { useSortedPosts, useSortedAndSearchPosts } from './hooks/usePosts';
 import PostsService from './API/PostsService';
 import MyLoader from './components/UI/loader/MyLoader';
 import {useFetching} from './hooks/useFetching';
-import {getPageCount, usePagesArray} from './utils/pages'
+import {getPageCount, usePagesArray} from './utils/pages';
+import MyPagination from './components/UI/pagination/MyPagination';
 
 import "../src/styles/App.css"
 import axios from 'axios';
@@ -32,7 +33,6 @@ function App() {
   }, []);
 
   const sortedAndSearchPosts = useSortedAndSearchPosts(filter.query, posts, filter.sort)
-  let pagesArray = usePagesArray(totalPages);
 
   // Принимаем newPost из дочернего компонента
   const createPost = (newPost) => {
@@ -49,8 +49,9 @@ function App() {
      fetchPosts(limit, page)
   }, [])
 
-  const changePostsList = (page) => {
+  const changePage = (page) => {
     setPage(page)
+    fetchPosts(limit, page)
   }
   
   return (
@@ -71,16 +72,7 @@ function App() {
         :
         <PostList remove={removePost} posts={sortedAndSearchPosts} title={"Список постов JavaScript"}/>
       }
-      <div className='page__wrapper'>
-        {pagesArray.map(p =>
-          <span
-              onClick={()=>changePostsList(p)}
-              key={p}
-              className={page === p ? 'page__item page__item--active' : 'page__item'}>
-            {p}
-          </span>
-        )}
-      </div>
+      <MyPagination totalPages={totalPages} page={page} changePage={changePage}></MyPagination>
     </div>
   );
 }
