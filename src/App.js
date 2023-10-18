@@ -3,21 +3,18 @@ import Posts from './pages/Posts';
 import About from './pages/About';
 
 import "../src/styles/App.css";
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import Navbar from './components/UI/navbar/Navbar';
 
 function App() {
   
   return (
     <BrowserRouter>
-      <div className='navbar'>
-        <div className='navbar__wrapper'>
-            <Link to='/about'>Главная страница</Link>    
-            <Link to='/post'>Посты</Link>
-        </div>
-      </div>
+      <Navbar/>
       <Routes>
         <Route path="/post" element={<Posts />} />
         <Route path="/about" element={<About />} />
+        <Route path="/*" element={<Navigate to="/post" replace />} />
       </Routes>
     </BrowserRouter>
     
