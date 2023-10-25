@@ -1,0 +1,13 @@
+.navbar {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    background: lightgray;
+    box-sizing: border-box;
+}
+
+.navbar__wrapper {
+    margin-left: auto;
+}

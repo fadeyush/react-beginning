@@ -1,6 +1,7 @@
 import React from 'react';
 import PostItem from './postItem';
 import { CSSTransition, TransitionGroup, } from 'react-transition-group';
+import '../styles/Posts.css';
 
 const postList = function ({posts, title, remove}) {
   if(!posts.length) {
