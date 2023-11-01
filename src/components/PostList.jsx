@@ -3,7 +3,7 @@ import PostItem from './postItem';
 import { CSSTransition, TransitionGroup, } from 'react-transition-group';
 import '../styles/Posts.css';
 
-const postList = function ({posts, title, remove}) {
+const PostList = function ({posts, title, remove}) {
   if(!posts.length) {
     return (
       <h1 style={{textAlign: 'center'}}>
@@ -29,4 +29,4 @@ const postList = function ({posts, title, remove}) {
   );
 }
 
-export default postList;
+export default PostList;

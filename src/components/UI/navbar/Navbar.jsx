@@ -7,7 +7,7 @@ const Navbar = () => {
         <div className={cl.navbar}>
         <div className={cl.navbar__wrapper}>
             <Link to='/about'>Главная страница</Link>    
-            <Link to='/post'>Посты</Link>
+            <Link to='/posts'>Посты</Link>
         </div>
       </div>
     );
