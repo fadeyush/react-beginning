@@ -4,7 +4,7 @@ import MyButton from '../components/UI/button/MyButton';
 import { AuthContext } from '../components/UI/context';
 
 const Login = () => {
-    const {isAuth, setIsAuth} = useContext(AuthContext)
+    const {isAuth, setIsAuth} = useContext(AuthContext);
 
     const login = event => {
         event.preventDefault();
