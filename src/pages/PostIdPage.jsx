@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import PostsService from '../API/PostsService';
 import { useFetching } from '../hooks/useFetching';
 import MyLoader from '../components/UI/loader/MyLoader';
+import CommentsList from '../components/CommentsList';
+
 const PostIdPage = () => {
     const params = useParams();
     const [post, setPost] = useState({});
@@ -45,12 +47,7 @@ const PostIdPage = () => {
             <div style={{display: 'flex', justifyContent: 'center', marginTop: '50px'}}><MyLoader/></div>
             :
             <div>
-                {comments.map(comm =>
-                    <div style={{marginTop: 15}}>
-                        <h5>{comm.email}</h5>
-                        <p>{comm.body}</p>
-                    </div>
-                )}
+                <CommentsList comments={comments}/>
             </div> 
             }
         </div>
