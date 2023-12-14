@@ -1,11 +1,14 @@
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import { router } from '../router/routs';
+import { privateRouter, publicRouter } from '../router/routs';
 
 const AppRouter = () => {
+    const isAuth = true;
     return (
+        isAuth
+        ?
         <Routes>
-            {router.map(route =>
+            {privateRouter.map(route =>
                 <Route
                     key={route.path}
                     element={<route.element/>}
@@ -14,7 +17,19 @@ const AppRouter = () => {
                 />
             )}
             <Route path="/*" element={<Navigate to="/posts" replace />} />
-      </Routes>
+        </Routes>
+        :
+        <Routes>
+            {publicRouter.map(route =>
+                <Route
+                    key={route.path}
+                    element={<route.element/>}
+                    path={route.path}
+                    exact={route.exact}
+                />
+            )}
+            <Route path="/*" element={<Navigate to="/login" replace />} />
+        </Routes>
     );
 };
 
