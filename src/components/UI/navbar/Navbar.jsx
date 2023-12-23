@@ -7,13 +7,14 @@ import { AuthContext } from '../context';
 const Navbar = () => {
     const {isAuth, setIsAuth} = useContext(AuthContext);
 
-    const login = event => {
+    const logout = event => {
         event.preventDefault();
-        setIsAuth(false)
+        setIsAuth(false);
+        localStorage.removeItem('auth');
     }
     return (
         <div className={cl.navbar}>
-            <MyButton onClick={login}>
+            <MyButton onClick={logout}>
                 Выйти
             </MyButton>
         <div className={cl.navbar__wrapper}>
