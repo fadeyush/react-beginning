@@ -16,3 +16,10 @@
 - Модальное окно
 - Анимации. React transition group
 - Создание своих хуков
+- Axios
+- useEffect
+- useFetching
+- Постраничный вывод. Пагинация
+- React router
+- useNavigate, useParams
+- useContext. Глобальные данные.
